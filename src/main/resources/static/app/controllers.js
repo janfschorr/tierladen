@@ -12,7 +12,9 @@
             }).$save(function(pet) {
                 $scope.pets.push(pet);
             });
-            $scope.newPet = "";
+            $scope.name = "";
+            $scope.category = "";
+            $scope.status = "";
         };
 
         $scope.deletePet = function(pet) {
