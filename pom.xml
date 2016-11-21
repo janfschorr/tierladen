@@ -22,7 +22,7 @@
 
     <unit-tests.skip>false</unit-tests.skip>
     <js-tests.skip>false</js-tests.skip>
-    <integration-tests.skip>true</integration-tests.skip>
+    <integration-tests.skip>false</integration-tests.skip>
 
     <bower-components>${basedir}/src/main/resources/static/bower_components</bower-components>
   </properties>
