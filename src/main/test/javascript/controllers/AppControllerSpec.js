@@ -1,23 +1,25 @@
 describe('The application controller', function() {
     var $scope, factory, saveCallback, queryCallback;
 
-    var ITEM1 = {
+    var PET1 = {
         id: 1,
-        description: 'My first item',
-        checked: false,
+        name: 'Wuffy',
+        category: 'Dog',
+        status: 'available',
         $remove: function(callback) {
             callback();
         }
-    }, ITEM2 = {
+    }, PET2 = {
         id: 2,
-        description: 'My second item',
-        checked: true,
+        name: 'Miauzi',
+        category: 'Cat',
+        status: 'pending',
         $remove: function(callback) {
             callback();
         }
-    }, DESCRIPTION = "A description";
+    }, NAME = "A name", CATEGORY = "A category", STATUS = "A status";
 
-    beforeEach(module('myApp.controllers'));
+    beforeEach(module('tierladenApp.controllers'));
     beforeEach(inject(function($controller, $rootScope) {
         factory = function() { };
         factory.prototype.$save = function(cb) {
@@ -30,52 +32,44 @@ describe('The application controller', function() {
         $scope = $rootScope.$new();
         $controller('AppController', {
             '$scope': $scope,
-            'Item': factory
+            'Pet': factory
         });
     }));
 
-    it('should have correct items', function() {
-        // When item1 and item2 are returned from service
-        queryCallback([ITEM1, ITEM2]);
+    it('should have correct pets', function() {
+        // When pet1 and pet2 are returned from service
+        queryCallback([PET1, PET2]);
 
-        expect($scope.items).toContain(ITEM1);
-        expect($scope.items).toContain(ITEM2);
-        expect($scope.items.length).toBe(2);
+        expect($scope.pets).toContain(PET1);
+        expect($scope.pets).toContain(PET2);
+        expect($scope.pets.length).toBe(2);
     });
 
-    it('should clear the textfield when adding a new item', function() {
+    it('should clear the textfield when adding a new pet', function() {
         // When the new description is entered inside the textbox
-        $scope.newItem = DESCRIPTION;
-        $scope.addItem(DESCRIPTION);
+        $scope.name = NAME;
+        $scope.addPet(NAME, CATEGORY, STATUS);
 
-        expect($scope.newItem).toBe("");
+        expect($scope.name).toBe("");
     });
 
-    it('should save the item when adding a new item', function() {
-        // When saving an item returns the persisted result
-        $scope.items = [];
-        $scope.addItem(DESCRIPTION);
-        saveCallback(ITEM1);
+    it('should save the pet when adding a new pet', function() {
+        // When saving an pet returns the persisted result
+        $scope.pets = [];
+        $scope.addPet(NAME);
+        saveCallback(PET1);
 
-        expect($scope.items).toContain(ITEM1);
-        expect($scope.items.length).toBe(1);
+        expect($scope.pets).toContain(PET1);
+        expect($scope.pets.length).toBe(1);
     });
 
-    it('should update the item when changing it', function() {
-        // When an item is changed
-        var changedItem = jasmine.createSpyObj('Item', ['$update']);
-        $scope.updateItem(changedItem);
+    it('should remove the pet from the list when it\'s deleted', function() {
+        // When there are two pets and PET1 is removed
+        $scope.pets = [PET1, PET2];
+        $scope.deletePet(PET1);
 
-        expect(changedItem.$update).toHaveBeenCalled();
-    });
-
-    it('should remove the item from the list when it\'s deleted', function() {
-        // When there are two items and ITEM1 is removed
-        $scope.items = [ITEM1, ITEM2];
-        $scope.deleteItem(ITEM1);
-
-        expect($scope.items.length).toBe(1);
-        expect($scope.items).toContain(ITEM2);
-        expect($scope.items).not.toContain(ITEM1);
+        expect($scope.pets.length).toBe(1);
+        expect($scope.pets).toContain(PET2);
+        expect($scope.pets).not.toContain(PET1);
     });
 });

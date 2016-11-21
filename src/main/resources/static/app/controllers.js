@@ -1,30 +1,27 @@
 (function(angular) {
-    var AppController = function($scope, Item) {
-        Item.query(function(response) {
-            $scope.items = response ? response : [];
+    var AppController = function($scope, Pet) {
+        Pet.query(function(response) {
+            $scope.pets = response ? response : [];
         });
 
-        $scope.addItem = function(description) {
-            new Item({
-                description: description,
-                checked: false
-            }).$save(function(item) {
-                $scope.items.push(item);
+        $scope.addPet = function(name, category, status) {
+            new Pet({
+                name: name,
+                category: category,
+                status: status
+            }).$save(function(pet) {
+                $scope.pets.push(pet);
             });
-            $scope.newItem = "";
+            $scope.newPet = "";
         };
 
-        $scope.updateItem = function(item) {
-            item.$update();
-        };
-
-        $scope.deleteItem = function(item) {
-            item.$remove(function() {
-                $scope.items.splice($scope.items.indexOf(item), 1);
+        $scope.deletePet = function(pet) {
+            pet.$remove(function() {
+                $scope.pets.splice($scope.pets.indexOf(pet), 1);
             });
         };
     };
 
-    AppController.$inject = ['$scope', 'Item'];
-    angular.module("myApp.controllers").controller("AppController", AppController);
+    AppController.$inject = ['$scope', 'Pet'];
+    angular.module("tierladenApp.controllers").controller("AppController", AppController);
 }(angular));
