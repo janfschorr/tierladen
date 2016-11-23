@@ -16,7 +16,24 @@
             controller: controller
         };
     };
-
     ListPetsDirective.$inject = [];
-    angular.module("tierladenApp").directive("listpets", ListPetsDirective);
+
+    var ShowPetDirective = function () {
+        var controller = ['$scope', function ($scope) {
+        }];
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                pet: "="
+            },
+            templateUrl: 'app/templates/showpet.html',
+            controller: controller
+        };
+    };
+
+    ShowPetDirective.$inject = [];
+    angular.module("tierladenApp")
+        .directive("showpet", ShowPetDirective)
+        .directive("listpets", ListPetsDirective);
 }(angular));

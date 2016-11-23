@@ -1,9 +1,6 @@
 package com.tierladen.functional;
 
 import com.tierladen.Application;
-import com.tierladen.builder.ItemBuilder;
-import com.tierladen.model.Item;
-import com.tierladen.repository.ItemRepository;
 import org.fluentlenium.adapter.FluentTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
