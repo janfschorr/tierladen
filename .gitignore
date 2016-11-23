@@ -2,3 +2,5 @@ target/
 bower_components/
 .idea
 phantomjsdriver.log
+.DS_Store
+petstore.iml
