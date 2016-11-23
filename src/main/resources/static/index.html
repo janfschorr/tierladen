@@ -4,6 +4,7 @@
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css"/>
+    <title>Tierladen Pet Store</title>
 </head>
 <body ng-app="tierladenApp" ng-strict-di>
 <div class="container" ng-controller="AppController">
@@ -13,7 +14,7 @@
     <listpets ng-model="pets" delete-pet="deletePet(pet)"></listpets>
     <form class="form-horizontal" role="form" name="petForm" ng-submit="petForm.petName.$valid && addPet(name, category, status)">
         <div class="form-group">
-            <div class="col-xs-4 col-md-4" ng-class="isValid(petForm.petName)">
+            <div ng-class="isValid(petForm.petName)">
                 <input type="text"
                        name="petName"
                        class="form-control"
@@ -22,17 +23,17 @@
                        ng-minlength="3"
                        placeholder="Enter the pet name..."/>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div ng-show="petForm.petName.$valid" class="col-xs-3 col-md-3">
                 <input type="text" class="form-control" ng-model="category" placeholder="What kind of pet... (optional)"/>
             </div>
-            <div class="col-xs-3 col-md-3">
+            <div ng-show="petForm.petName.$valid" class="col-xs-3 col-md-3">
                 <select class="form-control" ng-model="status">
                     <option value="available">available</option>
                     <option value="pending">pending</option>
                     <option value="sold">sold</option>
                 </select>
             </div>
-            <div class="col-xs-1 col-md-1">
+            <div ng-show="petForm.petName.$valid" class="col-xs-1 col-md-1">
                 <button class="btn btn-default" type="submit" ng-disabled="!name" title="Add">
                   Add <span class="glyphicon glyphicon-plus"></span>
                 </button>

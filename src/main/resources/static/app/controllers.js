@@ -14,12 +14,12 @@
         $scope.isValid = function (validationField) {
             if (validationField.$dirty) {
                 if (validationField.$valid) {
-                    return "has-success";
+                    return "has-success col-xs-4 col-md-4";
                 } else {
-                    return "has-warning";
+                    return "has-warning col-xs-12 col-md-12";
                 }
             } else {
-                return "";
+                return "col-xs-12 col-md-12";
             }
         };
 
