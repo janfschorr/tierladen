@@ -1,4 +1,5 @@
 (function (angular) {
+    'use strict';
     var PetFactory = function ($resource) {
         return $resource('/pet/:id', {
             id: '@id'

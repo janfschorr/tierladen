@@ -1,42 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css"/>
 </head>
 <body ng-app="tierladenApp">
 <div class="container" ng-controller="AppController">
     <div class="page-header">
         <h1>The <i>Tierladen</i> Pet Store</h1>
     </div>
-    <div class="alert alert-info" role="alert" ng-hide="pets &amp;&amp; pets.length > 0">
-        There are no pets yet.
-    </div>
     <form class="form-horizontal" role="form" ng-submit="addPet(name, category, status)">
-        <div class="form-group" ng-repeat="pet in pets">
-            <div class="col-xs-9">{{pet.name}} the {{pet.category}} is {{pet.status}}</div>
+        <listpets ng-model="pets" delete-pet="deletePet(pet)"></listpets>
+        <div class="form-group">
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="name" placeholder="Enter the pet name..."/>
+            </div>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="category" placeholder="What kind of pet... (optional)"/>
+            </div>
             <div class="col-xs-3">
-                <button class="pull-right btn btn-danger" type="button" title="Delete"
-                        ng-click="deletePet(pet)">
-                    <span class="glyphicon glyphicon-trash"></span>
+                <select class="form-control" ng-model="status">
+                    <option value="available">available</option>
+                    <option value="pending">pending</option>
+                    <option value="sold">sold</option>
+                </select>
+            </div>
+            <div class="col-xs-1">
+                <button class="btn btn-default" type="submit" ng-disabled="!name" title="Add">
+                  Add <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
-        </div>
-        <hr />
-        <div class="input-group">
-            <div class="col-xs-3">
-                <input type="text" class="form-control" ng-model="name" placeholder="Enter the pet name..." />
-            </div>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" ng-model="category" placeholder="What kind of pet... (optional)" />
-            </div>
-            <div class="col-xs-3">
-                <input type="text" class="form-control" ng-model="status" placeholder="Set a status for the pet sale... (optional)" />
-            </div>
-            <span class="input-group-btn">
-            <button class="btn btn-default" type="submit" ng-disabled="!name" title="Add">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
         </div>
     </form>
 </div>
@@ -46,5 +38,6 @@
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/controllers.js"></script>
 <script type="text/javascript" src="app/services.js"></script>
+<script type="text/javascript" src="app/directives.js"></script>
 </body>
 </html>

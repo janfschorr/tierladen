@@ -1,4 +1,5 @@
 (function(angular) {
+    'use strict';
     var AppController = function($scope, Pet) {
         Pet.query(function(response) {
             $scope.pets = response ? response : [];
