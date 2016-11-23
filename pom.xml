@@ -120,6 +120,9 @@
             <source>${bower-components}/angular-mocks/angular-mocks.js</source>
             <source>${basedir}/src/main/resources/static/app/app.js</source>
           </preloadSources>
+          <specIncludes>
+            <include>${bower-components}/angular/angular.js</include>
+          </specIncludes>
         </configuration>
       </plugin>
       <plugin>

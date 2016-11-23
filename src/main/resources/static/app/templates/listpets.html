@@ -3,7 +3,9 @@
 </div>
 
 <div class="form-group" ng-repeat="pet in ngModel">
-    <div ng-class-odd="$last ? 'col-xs-11 col-xs-offset-1':'col-xs-offset-1'" ng-class-even="col-xs-offset-2" class="col-xs-5 well">
+    <div ng-class-odd="$last ? 'col-xs-11 col-xs-offset-1':'col-xs-offset-1'"
+         ng-class-even="col-xs-offset-2"
+         class="col-xs-5 well">
         <showpet pet="pet">
             <button class="pull-right btn btn-danger" type="button" title="Delete"
                     ng-click="onDeletePet(pet)">
@@ -12,4 +14,6 @@
         </showpet>
     </div>
 </div>
-<hr class="col-xs-12" />
+<div class="form-group">
+    <hr class="col-xs-12" />
+</div>
