@@ -4,11 +4,13 @@
     <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/style.css"/>
     <title>Tierladen Pet Store</title>
 </head>
 <body ng-app="tierladenApp" ng-strict-di>
 <div class="container" ng-controller="AppController">
     <div class="page-header">
+        <img ng-show="pets &amp;&amp; pets.length > 0" src="./images/catpurr.png" alt="Grumpy Cat" class="floating-icon">
         <h1>The <i>Tierladen</i> Pet Store</h1>
     </div>
     <listpets ng-model="pets" delete-pet="deletePet(pet)"></listpets>
