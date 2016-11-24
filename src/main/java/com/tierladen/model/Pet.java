@@ -12,7 +12,7 @@ public class Pet {
 
     @Column
     @NotNull
-    @Size(min=4, max=20)
+    @Size(min=4, max=20, message="Name cannot be less than 4 or more than 20 characters long.")
     private String name;
 
     @Column

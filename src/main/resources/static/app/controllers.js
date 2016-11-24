@@ -1,11 +1,11 @@
-(function(angular) {
+(function (angular) {
     'use strict';
-    var AppController = function($scope, Pet) {
-        Pet.query(function(response) {
+    var AppController = function ($scope, Pet) {
+        Pet.query(function (response) {
             $scope.pets = response ? response : [];
         });
 
-        $scope.resetPetInput = function() {
+        $scope.resetPetInput = function () {
             $scope.name = "";
             $scope.category = "";
             $scope.status = "";
@@ -23,19 +23,32 @@
             }
         };
 
-        $scope.addPet = function(name, category, status) {
+        $scope.resetErrorResponse = function () {
+            $scope.errorResponse = "";
+        };
+
+        $scope.addPet = function (name, category, status) {
             new Pet({
                 name: name,
                 category: category,
                 status: status
-            }).$save(function(pet) {
+            }).$save(function (pet) {
                 $scope.pets.push(pet);
                 $scope.resetPetInput();
+            }, function (errorResponse) {
+                // FIXME this is hack: fix by updating message format server side.
+                $scope.errorResponse = _.last(errorResponse.data.message.split("; default message [")).replace("]]", "");
+                var watchRef = $scope.$watch("name", function (newVal, oldVal) {
+                    if (oldVal != "" && oldVal != newVal) {
+                        $scope.resetErrorResponse();
+                        watchRef(); // deregistering watch
+                    }
+                });
             });
         };
 
-        $scope.deletePet = function(pet) {
-            pet.$remove(function() {
+        $scope.deletePet = function (pet) {
+            pet.$remove(function () {
                 $scope.pets.splice($scope.pets.indexOf(pet), 1);
             });
         };
