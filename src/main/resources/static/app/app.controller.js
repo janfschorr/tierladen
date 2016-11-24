@@ -23,10 +23,6 @@
             }
         };
 
-        $scope.resetErrorResponse = function () {
-            $scope.errorResponse = "";
-        };
-
         $scope.addPet = function (name, category, status) {
             new Pet({
                 name: name,
@@ -36,14 +32,7 @@
                 $scope.pets.push(pet);
                 $scope.resetPetInput();
             }, function (errorResponse) {
-                // FIXME this is hack: fix by updating message format server side.
-                $scope.errorResponse = _.last(errorResponse.data.message.split("; default message [")).replace("]]", "");
-                var watchRef = $scope.$watch("name", function (newVal, oldVal) {
-                    if (oldVal != "" && oldVal != newVal) {
-                        $scope.resetErrorResponse();
-                        watchRef(); // deregistering watch
-                    }
-                });
+                $scope.errorResponse = errorResponse.data.errors;
             });
         };
 
@@ -55,5 +44,7 @@
     };
 
     AppController.$inject = ['$scope', 'Pet'];
-    angular.module("tierladenApp.controllers").controller("AppController", AppController);
+    angular
+        .module("tierladenApp.controllers")
+        .controller("AppController", AppController);
 }(angular));
