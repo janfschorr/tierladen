@@ -34,7 +34,7 @@ public class PetControllerTest {
             .id(PET2_ID)
             .name(PET2_NAME)
             .build();
-    private static final Pet NEW_ITEM = new PetBuilder()
+    private static final Pet NEW_PET = new PetBuilder()
             .build();
     @InjectMocks
     private PetController controller;
@@ -46,7 +46,7 @@ public class PetControllerTest {
     public void whenFindingPetsItShouldReturnAllPets() {
         // Given that the repository returns COMPLETE_PET and INCOMPLETE_PET
         given(repository.findAll()).willReturn(Arrays.asList(COMPLETE_PET, INCOMPLETE_PET));
-        // When looking for all items
+        // When looking for all pets
         assertThat(controller.findPets())
                 // Then it should return the COMPLETE_PET and INCOMPLETE_PET
                 .containsOnly(COMPLETE_PET, INCOMPLETE_PET);
@@ -54,10 +54,10 @@ public class PetControllerTest {
 
     @Test
     public void whenAddingPetItShouldReturnTheSavedPet() {
-        // Given that a NEW_ITEM is saved and flushed, a COMPLETE_PET is returned
-        given(repository.saveAndFlush(NEW_ITEM)).willReturn(COMPLETE_PET);
-        // When adding a NEW_ITEM
-        assertThat(controller.addPet(NEW_ITEM).getBody())
+        // Given that a NEW_PET is saved and flushed, a COMPLETE_PET is returned
+        given(repository.saveAndFlush(NEW_PET)).willReturn(COMPLETE_PET);
+        // When adding a NEW_PET
+        assertThat(controller.addPet(NEW_PET).getBody())
                 // Then it should return the COMPLETE_PET
                 .isSameAs(COMPLETE_PET);
     }
@@ -66,7 +66,7 @@ public class PetControllerTest {
     public void whenAddingPetItShouldMakeSureNoIDIsPassed() {
         // Given that a COMPLETE_PET is added
         controller.addPet(COMPLETE_PET);
-        // Verify that when the item is saved
+        // Verify that when the pet is saved
         verify(repository).saveAndFlush(anyPet.capture());
         // It should have an empty ID
         assertThat(anyPet.getValue().getId()).isNull();
@@ -82,9 +82,9 @@ public class PetControllerTest {
 
     @Test
     public void whenDeletingAnPetItShouldUseTheRepository() {
-        // Given that an item with COMPLETE_PET_ID is removed
+        // Given that an pet with COMPLETE_PET_ID is removed
         controller.deletePet(PET1_ID);
-        // Verify that the repository is used to delete the item
+        // Verify that the repository is used to delete the pet
         verify(repository).delete(PET1_ID);
     }
 }

@@ -1,6 +1,9 @@
 package com.tierladen.functional;
 
 import com.tierladen.Application;
+import com.tierladen.builder.PetBuilder;
+import com.tierladen.model.Pet;
+import com.tierladen.repository.PetRepository;
 import org.fluentlenium.adapter.FluentTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -23,19 +26,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 public class ApplicationIT extends FluentTest {
-    private static final String FIRST_ITEM_DESCRIPTION = "First item";
-    private static final String SECOND_ITEM_DESCRIPTION = "Second item";
-    private static final String THIRD_ITEM_DESCRIPTION = "Third item";
-    private static final Item FIRST_ITEM = new ItemBuilder()
-            .description(FIRST_ITEM_DESCRIPTION)
-            .checked()
+    private static final String FIRST_PET_NAME = "First pet";
+    private static final String SECOND_PET_NAME = "Second pet";
+    private static final String THIRD_PET_NAME = "Third pet";
+    private static final Pet FIRST_PET = new PetBuilder()
+            .name(FIRST_PET_NAME)
+            .category("dog")
             .build();
-    private static final Item SECOND_ITEM = new ItemBuilder()
-            .description(SECOND_ITEM_DESCRIPTION)
+    private static final Pet SECOND_PET = new PetBuilder()
+            .name(SECOND_PET_NAME)
             .build();
 
     @Autowired
-    private ItemRepository repository;
+    private PetRepository repository;
     @Value("${local.server.port}")
     private int serverPort;
     private WebDriver webDriver = new PhantomJSDriver();
@@ -43,7 +46,7 @@ public class ApplicationIT extends FluentTest {
     @Before
     public void setUp() {
         repository.deleteAll();
-        repository.save(Arrays.asList(FIRST_ITEM, SECOND_ITEM));
+        repository.save(Arrays.asList(FIRST_PET, SECOND_PET));
         repository.flush();
     }
 
@@ -58,42 +61,33 @@ public class ApplicationIT extends FluentTest {
     }
 
     @Test
-    public void hasTwoItems() {
+    public void hasTwoPets() {
         goTo(getUrl());
         await().atMost(5, TimeUnit.SECONDS).until(".checkbox").hasSize(2);
-        assertThat(find(".checkbox").getTexts()).containsOnly(FIRST_ITEM_DESCRIPTION, SECOND_ITEM_DESCRIPTION);
+        assertThat(find(".checkbox").getTexts()).containsOnly(FIRST_PET_NAME, SECOND_PET_NAME);
         assertThat(find(".checkbox").first().find(":checked")).isNotEmpty();
         assertThat(find(".checkbox").get(1).find(":checked")).isEmpty();
     }
 
     @Test
-    public void hasOneItemAfterDeleting() {
+    public void hasOnePetAfterDeleting() {
         goTo(getUrl());
         await().atMost(5, TimeUnit.SECONDS).until(".checkbox").hasSize(2);
         find(".form-group").first().find("button").click();
         await().atMost(5, TimeUnit.SECONDS).until(".checkbox").hasSize(1);
-        assertThat(find(".checkbox").getTexts()).containsOnly(SECOND_ITEM_DESCRIPTION);
+        assertThat(find(".checkbox").getTexts()).containsOnly(SECOND_PET_NAME);
         assertThat(repository.findAll()).hasSize(1);
     }
 
     @Test
-    public void hasTwoCheckedItemsAfterCheckingBoth() {
+    public void hasThreePetsAfterAddingOne() {
         goTo(getUrl());
         await().atMost(5, TimeUnit.SECONDS).until(".checkbox").hasSize(2);
-        find(".checkbox").get(1).find("input[type=checkbox]").click();
-        assertThat(find(".form-group :checked")).hasSize(2);
-        assertThat(repository.findChecked()).hasSize(2);
-    }
-
-    @Test
-    public void hasThreeItemsAfterAddingOne() {
-        goTo(getUrl());
-        await().atMost(5, TimeUnit.SECONDS).until(".checkbox").hasSize(2);
-        fill(".input-group input[type=text]").with(THIRD_ITEM_DESCRIPTION);
+        fill(".input-group input[type=text]").with(THIRD_PET_NAME);
         submit("form");
         await().atMost(5, TimeUnit.SECONDS).until(".checkbox").hasSize(3);
         assertThat(find(".checkbox").getTexts())
-                .containsOnly(FIRST_ITEM_DESCRIPTION, SECOND_ITEM_DESCRIPTION, THIRD_ITEM_DESCRIPTION);
+                .containsOnly(FIRST_PET_NAME, SECOND_PET_NAME, THIRD_PET_NAME);
         assertThat(repository.findAll()).hasSize(3);
     }
 
