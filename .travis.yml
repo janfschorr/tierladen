@@ -4,4 +4,4 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - npm install -g bower
   - bower install
-script: mvn clean package
+script: mvn clean package -Pintegration
