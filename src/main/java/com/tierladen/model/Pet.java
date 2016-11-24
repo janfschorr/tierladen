@@ -1,5 +1,8 @@
 package com.tierladen.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,6 +28,8 @@ public class Pet {
 
     public void setId(Integer id) { this.id = id; }
 
+    @JsonProperty(required = true)
+    @ApiModelProperty(notes = "The name of the pet", required = true)
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }

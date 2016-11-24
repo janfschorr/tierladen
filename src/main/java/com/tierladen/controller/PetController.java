@@ -2,6 +2,7 @@ package com.tierladen.controller;
 
 import com.tierladen.model.Pet;
 import com.tierladen.repository.PetRepository;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public class PetController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Pet> findPets() { return repo.findAll(); }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid input")})
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Pet> addPet(@Valid @RequestBody Pet pet) {
         pet.setId(null);
